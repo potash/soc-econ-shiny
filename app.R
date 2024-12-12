@@ -17,6 +17,7 @@ library(scales)
 library(ggtext)
 library(shinyjs)
 source("soc.R")
+library(shinyBS)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -66,17 +67,19 @@ ui <- fluidPage(
             numericInput("A",
                          "Field area \\(A\\) (ha):",
                          value = par_defaults$A, min=0),
-            
-            numericInput("sigma_tau_tilde",
-                        tags$div("Average treatment effect uncertainty \\(\\sigma_\\tilde\\tau\\)",
-                                 HTML("(Mg ha<sup>-1</sup> y<sup>-1</sup>)")),
-                        value = par_defaults$sigma_tau_tilde, min=0),
-            sliderInput("rho_b",
-                         "Between-field temporal autocorrelation \\(\\rho_b\\):",
-                         value = par_defaults$rho_b, min=0, max=1),
-            sliderInput("rho_w",
-                         "Within-field temporal autocorrelation \\(\\rho_w\\):",
-                         value = par_defaults$rho_w, min=0, max=1)
+            bsCollapse(id = "socAdvanced",
+                       bsCollapsePanel("Advanced", 
+                                       numericInput("sigma_tau_tilde",
+                                                    tags$div("Average treatment effect uncertainty \\(\\sigma_\\tilde\\tau\\)",
+                                                             HTML("(Mg ha<sup>-1</sup> y<sup>-1</sup>)")),
+                                                    value = par_defaults$sigma_tau_tilde, min=0),
+                                       sliderInput("rho_b",
+                                                   "Between-field temporal autocorrelation \\(\\rho_b\\):",
+                                                   value = par_defaults$rho_b, min=0, max=1),
+                                       sliderInput("rho_w",
+                                                   "Within-field temporal autocorrelation \\(\\rho_w\\):",
+                                                   value = par_defaults$rho_w, min=0, max=1))
+            )
           ),
           nav_panel("Economics",
             numericInput("c_T",
