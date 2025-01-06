@@ -1,0 +1,53 @@
+html, body {
+    font-family: 'Roboto', sans-serif; /* Font of ASC tools site */
+    margin: 0; /* Remove all default margin */
+    padding: 0; /* Remove all default padding */
+    width: 100%; /* Ensure the body spans the full width */
+    height: 100%; /* Ensure the body spans the full height */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+#header {
+    background-color: #f0f0f0;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    margin: 0; /* Ensure no margin around the header */
+    width: 100%; /* Explicitly set full width */
+    position: fixed; /* Fix the header at the top */
+    top: 0; /* Position the header at the very top */
+    left: 0; /* Ensure the header starts at the very left */
+    box-sizing: border-box; /* Include padding in width calculation */
+    z-index: 1000; /* Ensure the header stays on top of other elements */
+}
+.main-content {
+    padding-top: 8vh; /* Add padding to account for the fixed header height */
+}
+.card { /* Card styling for consistency w/ ASC tools site */
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 80vh;
+}
+.nav-tabs {
+  justify-content: flex-start !important; /* Align parameter tabs to start */
+  width: 100%; /* Ensure tabs span full width */
+}
+.shiny-input-container:not(.shiny-input-container-inline) {
+    width: 100% !important; /* Force input containers to span full width */
+    max-width: 100%; /* Ensure they do not exceed parent container's width */
+    box-sizing: border-box; /* Include padding and borders in width calculation */
+}
+.form-group {
+    margin-bottom: 3px; /* Reduce spacing between input controls */
+}
+.form-group > label {
+    font-weight: bold; /* Make input control titles bold */
+}
+.card-body p {
+    font-size: 14px; /* Make instructions font smaller */
+    margin: -10px; /* Make instructions spaced better within card */
+}

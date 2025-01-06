@@ -19,74 +19,18 @@ library(shinyjs)
 source("soc.R")
 # Removed ShinyBS given incompatibility with recent Bootstrap and bslib (refactored bsTooltip -> tooltip)
 
-# Custom CSS for header, font styling, input fixes (Evan)
-custom_css <- "
-html, body {
-    font-family: 'Roboto', sans-serif; /* Font of ASC tools site */
-    margin: 0; /* Remove all default margin */
-    padding: 0; /* Remove all default padding */
-    width: 100%; /* Ensure the body spans the full width */
-    height: 100%; /* Ensure the body spans the full height */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-}
-#header {
-    background-color: #f0f0f0;
-    height: 10vh;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    margin: 0; /* Ensure no margin around the header */
-    width: 100%; /* Explicitly set full width */
-    position: fixed; /* Fix the header at the top */
-    top: 0; /* Position the header at the very top */
-    left: 0; /* Ensure the header starts at the very left */
-    box-sizing: border-box; /* Include padding in width calculation */
-    z-index: 1000; /* Ensure the header stays on top of other elements */
-}
-.main-content {
-    padding-top: 8vh; /* Add padding to account for the fixed header height */
-}
-.card { /* Card styling for consistency w/ ASC tools site */
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    padding: 15px;
-    margin: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    min-height: 80vh;
-}
-.nav-tabs {
-  justify-content: flex-start !important; /* Align parameter tabs to start */
-  width: 100%; /* Ensure tabs span full width */
-}
-.shiny-input-container:not(.shiny-input-container-inline) {
-    width: 100% !important; /* Force input containers to span full width */
-    max-width: 100%; /* Ensure they do not exceed parent container's width */
-    box-sizing: border-box; /* Include padding and borders in width calculation */
-}
-.form-group {
-    margin-bottom: 3px; /* Reduce spacing between input controls */
-}
-.form-group > label {
-    font-weight: bold; /* Make input control titles bold */
-}
-.card-body p {
-    font-size: 14px; /* Make instructions font smaller */
-    margin: -10px; /* Make instructions spaced better within card */
-}
-"
-
 # Header plus three-column layout filling the page
 ui <- page_fillable(
   tags$head(
-    tags$style(HTML(custom_css)),
-    tags$link(rel = "stylesheet", href = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap")
+    tags$link(rel = "stylesheet", href = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"),
+    tags$link(rel = "stylesheet", href = "custom.css") # use the custom CSS file from www/custom.css 
   ),
   # Header with title and ASC Logo
   div(
     id = "header",
     h3("Soil Organic Carbon Economics", style = "margin-top:1vh"),
-    img(src = "logo_asc.png", alt = "ASC Logo", style = "height:60%; float:right; margin-left:2vw;")
+    img(src = "logo_asc.png", alt = "ASC Logo", style = "height:60%; float:right; margin-left:2vw;"),
+    actionButton("aboutButton", "About", style = "height: 60%; float:right; margin-left:30vw")
   ),
   withMathJax(),
   useShinyjs(),
@@ -659,6 +603,32 @@ server <- function(input, output, session) {
   # p_1T is only relevant to two stage cluster sampling design
   observeEvent(input$design, {
     toggleState("p_1T", input$design == "cluster")
+  })
+  
+  # logic for the About modal
+  observeEvent(input$aboutButton, {
+    showModal(modalDialog(
+      title = div(strong("About This Application"), style = "font-size:20px; margin-bottom: -5vh;"),
+      
+      tagList(
+        p("This webapp is a companion to the publication:"),
+        p("E Potash, M Bradford, E Oldfield, and K Guan. ", 
+          tags$em("Measure-and-remeasure as an economically feasible approach to crediting soil organic carbon at scale."),
+          " Environmental Research Letters (2024)"),        
+        p(strong("Major Funders and Collaborators"), style = "font-size:20px; margin-top: 4vh;"),
+        p("The creation of this webapp was made possible by the following organizations:"),
+        div(style = "display:flex; justify-content:center; margin-top: 3vh;",
+            img(src = "NSF.png", alt = "NSF Logo", style = "height:5vh; margin-right:10px;"),
+            img(src = "ARPAE.png", alt = "ARPAE Logo", style = "height:5vh; margin-right:10px;"),
+            img(src = "ffar.png", alt = "ffar Logo", style = "height:5vh; margin-right:10px;"),
+            img(src = "logo_asc.png", alt = "ASC Logo", style = "height:5vh;")
+        )
+      ),
+  
+      size = "l", # large modal size
+      easyClose = TRUE,
+      footer = NULL
+    ))
   })
 }
 
