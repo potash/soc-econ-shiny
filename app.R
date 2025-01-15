@@ -133,7 +133,7 @@ ui <- page_fillable(
           # Refactored to an accordion now that we use bslib and not ShinyBS
           accordion(
             id = "socAdvanced",
-            open = NULL,
+            open = FALSE,
             multiple = TRUE,
             class = NULL, # 
             accordion_panel(
