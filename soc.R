@@ -252,7 +252,7 @@ summary_outcomes = list(
 design_outcomes = list(
   n_fields="Fields visited",
   n_locations="Locations sampled",
-  n_labs="After compositing",
+  n_labs="Lab analyses (composites)",
   N_T="Treatment fields",
   N_C="Control fields"
 )

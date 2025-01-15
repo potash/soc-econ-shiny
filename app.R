@@ -322,7 +322,7 @@ ui <- page_fillable(
           "Optimization",
           actionButton("optimizeSharpe", "Maximize Sharpe ratio"),
           actionButton("optimizeSE", "Minimize standard error (experimental)"),
-          numericInput("budget", "Budget", value = "1000000", min =
+          numericInput("budget", "Budget ($ ha\\(^{-1}\\))", value = "26", min =
                          1)
         )
       ),
@@ -507,7 +507,6 @@ server <- function(input, output, session) {
       
       x0_init = unlist(get_design_defaults(pars$N)[design_names])
       x0_init[1] = 0.5
-      
       nlo = nloptr::slsqp(
         x0 = unlist(x0_init) %>% scale_props2(n = pars$N),
         fn = compose(
@@ -527,7 +526,7 @@ server <- function(input, output, session) {
             get_and_transform,
             name = "Cost",
             a = 1,
-            b = -input$budget
+            b = -input$budget*pars$A*pars$N*pars$Y
           ),
           partial(eval_design, !!!args),
           partial(scale_props2, n = pars$N)
@@ -537,9 +536,6 @@ server <- function(input, output, session) {
     } else {
       x0_init = design_defaults[design_names]
       x0_init[1] = 0.5
-      print(unlist(x0_init) %>% scale_props3(N = pars$N, A = pars$A))
-      print(lower %>% scale_props3(N = pars$N, A = pars$A))
-      print(upper %>% scale_props3(N = pars$N, A = pars$A))
       
       lower = lower %>% scale_props3(N = pars$N, A = pars$A)
       upper = upper %>% scale_props3(N = pars$N, A = pars$A)
@@ -572,7 +568,7 @@ server <- function(input, output, session) {
             get_and_transform,
             name = "Cost",
             a = 1,
-            b = -input$budget
+            b = -input$budget*pars$A*pars$N*pars$Y
           ),
           partial(eval_design, !!!args),
           partial(scale_props3_inv, N = pars$N, A =
@@ -621,8 +617,12 @@ server <- function(input, output, session) {
             img(src = "NSF.png", alt = "NSF Logo", style = "height:5vh; margin-right:10px;"),
             img(src = "ARPAE.png", alt = "ARPAE Logo", style = "height:5vh; margin-right:10px;"),
             img(src = "ffar.png", alt = "ffar Logo", style = "height:5vh; margin-right:10px;"),
-            img(src = "logo_asc.png", alt = "ASC Logo", style = "height:5vh;")
-        )
+            img(src = "edf.png", alt = "EDF Logo", style = "height:5vh;"),
+        ),
+        div(style = "display:flex; justify-content:center; margin-top: 3vh;",
+            img(src = "logo_asc.png", alt = "ASC Logo", style = "height:5vh;"),
+            img(src = "yale.png", alt = "Yale Forest School Logo", style = "height:5vh;"),
+        ),
       ),
   
       size = "l", # large modal size
