@@ -41,9 +41,9 @@ ui <- page_fillable(
       col_widths = c(2, 5, 5),
       # Instructions column, inline CSS to ensure this card doesn't expand too much on param 
       card(style = "max-height: 80vh;", card_header(h4("Instructions")), card_body(
-         p("1. Select and/or modify parameters of Scale, SOC, Economics, and Design."),
-         p("2. Select 'Optimize' tab if desired to find the best setup."),
-         p("3. On the right, view results in tables or as a histogram plot.")
+         p("1. Select parameters in Scale, SOC, Economics, and Design tabs."),
+         p("2. (Optional) Optimize design in Optimization tab."),
+         p("3. View results in histogram plot or tables on the right.")
         )
       ),
       # Parameters tabs column
@@ -321,8 +321,8 @@ ui <- page_fillable(
         nav_panel(
           "Optimization",
           actionButton("optimizeSharpe", "Maximize Sharpe ratio"),
-          actionButton("optimizeSE", "Minimize standard error (experimental)"),
-          numericInput("budget", "Budget ($ ha\\(^{-1}\\))", value = "26", min =
+          actionButton("optimizeSE", "Minimize standard error given budget (experimental)"),
+          numericInput("budget", "Budget ($ ha\\(^{-1}\\) y\\(^{-1}\\) )", value = "26", min =
                          1)
         )
       ),
@@ -333,7 +333,7 @@ ui <- page_fillable(
         nav_panel("Plot", 
                   div(style = "height: 10vh", plotOutput("econPlot"))),
         nav_panel(
-          "Table",
+          "Tables",
           h5("Costs and earnings"),
           selectizeInput(
             "unitSelect",
