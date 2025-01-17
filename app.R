@@ -607,10 +607,10 @@ server <- function(input, output, session) {
       title = div(strong("About This Application"), style = "font-size:20px; margin-bottom: -5vh;"),
       
       tagList(
-        p("This webapp is a companion to the publication:"),
-        p("E Potash, M Bradford, E Oldfield, and K Guan. ", 
-          tags$em("Measure-and-remeasure as an economically feasible approach to crediting soil organic carbon at scale."),
-          " Environmental Research Letters (2024)"),        
+        p("This webapp is a companion to the ", a("publication", href="https://iopscience.iop.org/article/10.1088/1748-9326/ada16c"), ":"),
+        p(tags$em("Measure-and-remeasure as an economically feasible approach to crediting soil organic carbon at scale."), br(),
+          "E Potash, M Bradford, E Oldfield, and K Guan.", 
+          "Environmental Research Letters. 20 (2025) 024025"),        
         p(strong("Major Funders and Collaborators"), style = "font-size:20px; margin-top: 4vh;"),
         p("The creation of this webapp was made possible by the following organizations:"),
         div(style = "display:flex; justify-content:center; margin-top: 3vh;",
